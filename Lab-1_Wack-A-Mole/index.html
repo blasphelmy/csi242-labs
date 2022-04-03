@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Wacka Frog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.core.min.js" integrity="sha512-+wqa4/aOL4vwhL637A4p+6epqhUHDqpEfYJa1+PlzlMf908CSOb3xtIeKwZWh5Q0Q/R2nYUKxH4vvcQg+k8KKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<style>
+#main {
+    position: relative;
+    height: 640px;
+    width: 640px;
+    display: grid;
+    grid-template-columns: repeat(4, 160px);
+    grid-template-rows: repeat(4, 160px);
+}
+#main > .node {
+    background-color: gainsboro;
+    width: 160px;
+    height: 160px;
+}
+#main > .active {
+    background-image: url('frog.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0%;
+}
+#main > .blood {
+    background-image: url('blood.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0%;
+}
+button {
+    padding: 10px;
+}
+#scoreTracker {
+    font-size: 30px;
+}
+#streak {
+    font-size: 30px;
+}
+#winScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.hide {
+    display: none;
+}
+</style>
+<script>
+class ColorWheel {
+    colors;
+    current;
+    constructor(colors){
+        this.current = -1;
+        this.colors = colors;
+    }
+    nextColor(){
+        this.current = this.current + 1;
+        if(this.current >= this.colors.length){
+            this.current = 0;
+        }
+        return this.colors[this.current];
+    }
+}
+
+var sound = new Howl({
+    src: ['winnerAudio.mp3']
+});
+
+var score = 0;
+var streak = 0;
+var id = null;
+var clicked = false;
+var newColors = new Array("blue", "green", "red", "pink", "yellow", "blue", "purple", "teal");
+var newcolorWheel = new ColorWheel(newColors);
+function initializeGame(){
+    score = 0;
+    streak = 0;
+    id = newRandomId();
+    setFrog();
+}
+function setFrog(){
+    clicked = false;
+    var frogElement = document.getElementById(id);
+    frogElement.classList.add("active");
+    frogElement.addEventListener("click", killFrog, true);
+    setTimeout(checkFrog, getRandomArbitrary(750, 1500));
+}
+function checkFrog(){
+    var scoreTracker = document.getElementById("scoreTracker");
+    var streakTracker = document.getElementById("streak");
+    var frogElement = document.getElementById(id);
+    if(clicked === false){
+        score = score - 200;
+        streak = 0;
+
+        streakTracker.style.color = "black";
+    }else if(clicked === true){
+        streak++;
+        score = score + (streak * 20);
+        streakTracker.style.color = newcolorWheel.nextColor();
+        if(score > 1200){
+            var winscreenElement = document.getElementById("winScreen");
+            winscreenElement.classList.remove("hide");
+            sound.play();
+            return;
+        }
+    }
+    scoreTracker.innerText = score;
+
+    streakTracker.innerText = streak;
+    frogElement.classList.remove("active");
+    frogElement.classList.remove("blood");
+    frogElement.removeEventListener("click", killFrog, true);
+    var newId = newRandomId();
+    while(newId === id){
+        newId = newRandomId();
+    }
+    id = newId;
+    setFrog();
+}
+function killFrog(){
+    clicked = true;
+    var frogElement = document.getElementById(id);
+    frogElement.classList.remove("active");
+    frogElement.classList.add("blood");
+}
+function newRandomId(){
+    x = Math.floor(Math.random() * 4);
+    y = Math.floor(Math.random() * 4);
+    return x + "" + y;
+}
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+</script>
+<body>
+<button onclick="initializeGame()">Play</button>
+<p>Goal: 1200pts</p>
+<p>you get more points for each frog killed in time. - 200 points if you let a frog get away</p>
+<div id="scoreTracker">0</div><div><p>Streak:</p><p id = "streak">0</p></div>
+<div id="main"> 
+    <div id="00" class="node"></div>
+    <div id="01" class="node"></div>
+    <div id="02" class="node"></div>
+    <div id="03" class="node"></div>
+
+    <div id="10" class="node"></div>
+    <div id="11" class="node"></div>
+    <div id="12" class="node"></div>
+    <div id="13" class="node"></div>
+
+    <div id="20" class="node"></div>
+    <div id="21" class="node"></div>
+    <div id="22" class="node"></div>
+    <div id="23" class="node"></div>
+
+    <div id="30" class="node"></div>
+    <div id="31" class="node"></div>
+    <div id="32" class="node"></div>
+    <div id="33" class="node"></div>
+</div>
+<img src="winner.png" id = "winScreen" class="hide" >;
+</body>
+
+</html>
