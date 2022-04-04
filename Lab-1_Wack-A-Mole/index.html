@@ -93,6 +93,12 @@ function setFrog(){
     frogElement.addEventListener("click", killFrog, true);
     setTimeout(checkFrog, getRandomArbitrary(750, 1500));
 }
+function winScreen(){
+    var winscreenElement = document.getElementById("winScreen");
+    winscreenElement.classList.remove("hide");
+    winscreenElement.src = "winner.png";
+    sound.play();
+}
 function checkFrog(){
     var scoreTracker = document.getElementById("scoreTracker");
     var streakTracker = document.getElementById("streak");
@@ -107,9 +113,7 @@ function checkFrog(){
         score = score + (streak * 20);
         streakTracker.style.color = newcolorWheel.nextColor();
         if(score > 1200){
-            var winscreenElement = document.getElementById("winScreen");
-            winscreenElement.classList.remove("hide");
-            sound.play();
+            winScreen();
             return;
         }
     }
@@ -167,7 +171,7 @@ function getRandomArbitrary(min, max) {
     <div id="32" class="node"></div>
     <div id="33" class="node"></div>
 </div>
-<img src="winner.png" id = "winScreen" class="hide" >;
+<img id = "winScreen" class="hide" >
 </body>
 
 </html>
