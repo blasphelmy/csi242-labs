@@ -1,0 +1,138 @@
+@font-face {
+    font-family: "San Francisco";
+    font-weight: 100;
+    src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.woff");
+}
+
+@font-face {
+    font-family: "San Francisco Thin";
+    font-weight: 200;
+    src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff");
+}
+
+@font-face {
+    font-family: "San Francisco Regular";
+    font-weight: 400;
+    src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+
+/* thank you mfd @ https://gist.github.com/mfd/614e2e80a22b878bde63cb471cbe677e */
+html {
+    touch-action: none;
+}
+body {
+    background-image: url("bg.png");
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    touch-action: none;
+}
+
+#Calculator-Body {
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 57.5px));
+    grid-template-areas:
+        "Display Display Display Display"
+        "KeyPad KeyPad KeyPad KeyPad"
+        "KeyPad KeyPad KeyPad KeyPad"
+        "KeyPad KeyPad KeyPad KeyPad"
+        "KeyPad KeyPad KeyPad KeyPad"
+        "KeyPad KeyPad KeyPad KeyPad"
+    ;
+    grid-template-rows: 80px 48px 48px 48px 48px 48px;
+    margin: auto;
+    width: 230px;
+    height: 320px;
+    background-color: rgba(39, 39, 39, 0.651);
+    border-radius: 10px;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 3px 36px 4px rgba(255, 255, 255, 0.43);
+    box-shadow: 0px 3px 36px 4px rgba(12, 12, 12, 0.521);
+    border-width: .7px;
+    border-style: solid;
+    border-color: gray;
+
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    -moz-backdrop-filter: blur(25px);
+}
+
+Display {
+    position: relative;
+    grid-area: 1 / 1 / 1/ 5;
+}
+
+#Display {
+    position: absolute;
+    color: white;
+    font-size: 50px;
+    margin: auto;
+    font-family: "San Francisco";
+    right: 8px;
+    bottom: 0px;
+}
+
+KeyPad {
+    position: relative;
+    /* border-top-width: 1px;
+        border-right-width: 1px;
+        border-top-style: solid;
+        border-right-style: solid;
+        border-color: rgba(0, 0, 0, 0.432); */
+    margin-top: 1px;
+    margin-right: 1px;
+}
+
+KeyPad>p {
+    position: absolute;
+    color: white;
+    font-size: x-large;
+    margin: auto;
+    top: 10px;
+    left: 20px;
+    font-family: "San Francisco Regular";
+}
+
+.NumPad0 {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 6;
+    grid-row-end: 7;
+}
+
+.Orange {
+    background-color: rgb(255, 162, 23);
+    border-right-width: 0px;
+    margin-right: 0px;
+}
+
+.Orange:active {
+    background-color: rgb(209, 136, 0);
+}
+
+.selectedOperation {
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.349)
+}
+
+.Dark {
+    background-color: rgba(255, 255, 255, 0.068);
+}
+
+.Dark:active {
+    background-color: rgba(255, 255, 255, 0.212);
+}
+
+.Light {
+    background-color: rgba(255, 255, 255, 0.212);
+}
+
+.Light:active {
+    background-color: rgba(255, 255, 255, 0.445);
+}

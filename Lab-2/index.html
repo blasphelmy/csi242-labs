@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mac OSX Calculator Clone</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head> 
+
+<body onload="initializeStuff()">
+    <div id="Calculator-Body">
+        <Display><p id = "Display">0</p></Display>
+
+        <KeyPad id = "Clear" class="Dark"><p id = "ClearButtonText" style="left: 15px;">AC</p></KeyPad>
+        <KeyPad id="Invert"  class="Dark"><p style="left: 15px;">+/-</p></KeyPad>
+        <KeyPad id="Div100" class="Dark"><p>&#37;</p></KeyPad>
+        <KeyPad id = "Divide" class="Operations Orange"><p>&#xF7;</p></KeyPad>
+        <KeyPad id = "7" class="NumPad Light"><p>7</p></KeyPad>
+        <KeyPad id = "8" class="NumPad Light"><p>8</p></KeyPad>
+        <KeyPad id = "9" class="NumPad Light"><p>9</p></KeyPad>
+        <KeyPad id = "Multiply" class="Operations Orange"><p>&times;</p></KeyPad>
+        <KeyPad id = "4" class="NumPad Light"><p>4</p></KeyPad>
+        <KeyPad id = "5" class="NumPad Light"><p>5</p></KeyPad>
+        <KeyPad id = "6" class="NumPad Light"><p>6</p></KeyPad>
+        <KeyPad id = "Subtract" class="Operations Orange"><p>&#8722;</p></KeyPad>
+        <KeyPad id = "1" class="NumPad Light"><p>1</p></KeyPad>
+        <KeyPad id = "2" class="NumPad Light"><p>2</p></KeyPad>
+        <KeyPad id = "3" class="NumPad Light"><p>3</p></KeyPad>
+        <KeyPad id = "Add" class="Operations Orange"><p>&#43;</p></KeyPad>
+        <KeyPad id= "0" class="NumPad NumPad0 Light"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</p></KeyPad> 
+        <KeyPad id = "Decimal" class="NumPad Light"><p style="left: 26px;">.</p></KeyPad>
+        <KeyPad id = "Calculate" class="Orange"><p>=</p></KeyPad>
+    </div>
+</body>
+<script>
+window.addEventListener('load', centerWindow);
+window.addEventListener('resize', centerWindow);
+
+function centerWindow() {
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+
+    let element = document.getElementById("Calculator-Body");
+
+    let elementWidth = element.getBoundingClientRect().width;
+    let elementHeight = element.getBoundingClientRect().height;
+
+    console.log(w + " " + h + " " + elementWidth);
+
+    element.style.top = (innerHeight * .25) + "px";
+    element.style.left = ((innerWidth - elementWidth) * .5) + "px";
+
+}
+</script>
