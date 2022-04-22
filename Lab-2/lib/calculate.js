@@ -3,34 +3,27 @@ const numbers = new RegExp(/([0-9])/);
 const invalidToken = new RegExp(/([a-zA-Z]+)/);
 const brackets = [new RegExp(/[(]/), new RegExp(/[)]/)];
 const isString = new RegExp(/"/);
+
 function calculate(newExpression){
-  var newTokens = infixToPostFixed(newExpression); //converts expression from postfix to infix
+  var newTokens = infixToPostFixed(newExpression); //converts expression from infix to postfixed
   var newTokenTree = parseTokens(newTokens);
   return newTokenTree;
 }
 function parseTokens(expressionArray){
-  var newNumberStack = new Stack();
-  for(var index = 0; index < expressionArray.length; index++){
-      var token = expressionArray[index];
-      // console.log("token = ", token);
-      var newNode = new Node(token);
-      // console.log(newNode);
-      if(newNode.type === "num"){
-        newNumberStack.push(newNode);
-      }else if(newNode.type === "operator"){
-        if(newNode.value === "log"){
-          newNode.rightNode = newNumberStack.pop();
-          newNumberStack.push(newNode);
-          continue;
-        }
-          newNode.rightNode = newNumberStack.pop();
-          newNode.leftNode = newNumberStack.pop();
-          newNumberStack.push(newNode);
-        }
-        // console.log(newNode);
-      }
-      // console.log(newNode); 
-    return newNode;
+  var stack = new Stack;
+  for(let i = 0; i < expressionArray.length; i++){
+    let token = expressionArray[i];
+    var newNode = new Node(token);
+    // console.log(newNode);
+    if(newNode.type === "num"){
+      stack.push(newNode);
+    }else if(newNode.type === "operator"){
+        newNode.rightNode = stack.pop();
+        newNode.leftNode = stack.pop();
+        stack.push(newNode);
+    }
+  }
+  return newNode;
 }
 function recombineNegatives(array){
   var newArray = new Array();
@@ -55,35 +48,36 @@ function getPrecedence(value){
             case "(": return 0;
         } 
 }
-class Stack{
-  top;
-  newStack;
+class Stack {
+  array;
+  top; //position size 
   constructor(){
-    this.newStack = [];
+    this.array = new Array();
     this.top = -1;
   }
   push(data){
     this.top++;
-    this.newStack[this.top] = data;
+    this.array[this.top] = data;
   }
   pop(){
-    var newData = this.newStack[this.top];
+    var data = this.array[this.top];
     this.top--;
-    return newData;
+    return data;
   }
   peek(){
-    return this.newStack[this.top];
+    return this.array[this.top];
   }
 }
+
 class Node {
     leftNode;
     rightNode;
     value;
     type;
-    constructor(value){
-        this.value = value;
+    constructor(value){ //pass in 3
+        this.value = value; //value of this node = 3
         if(this.value === "pi"){
-          this.type = "num";
+          this.type = "num"; 
         }
         if(this.value === "e"){
           this.type = "num";

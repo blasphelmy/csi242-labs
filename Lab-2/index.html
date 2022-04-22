@@ -7,9 +7,10 @@
     <title>Mac OSX Calculator Clone</title>
 
     <link rel="stylesheet" href="styles.css">
+    <script src="lib/calculate.js"></script>
 </head> 
 
-<body onload="initializeStuff()">
+<body>
     <div id="Calculator-Body">
         <Display><p id = "Display">0</p></Display>
 
@@ -31,9 +32,45 @@
         <KeyPad id = "Add" class="Operations Orange"><p>&#43;</p></KeyPad>
         <KeyPad id= "0" class="NumPad NumPad0 Light"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</p></KeyPad> 
         <KeyPad id = "Decimal" class="NumPad Light"><p style="left: 26px;">.</p></KeyPad>
-        <KeyPad id = "Calculate" class="Orange"><p>=</p></KeyPad>
+        <KeyPad id = "Calculate" class="Operations Orange"><p>=</p></KeyPad>
     </div>
 </body>
+
+<script>
+const displayELement = document.getElementById("Display");
+
+const nunbersKeypad = document.getElementsByClassName("NumPad");
+for(element of nunbersKeypad){
+    element.addEventListener("click", function(){
+        if(displayELement.innerText === "0"){
+            displayELement.innerText = "";
+        }
+        displayELement.append(this.id);
+    });
+}
+
+const operationsKeypad = document.getElementsByClassName("Operations");
+for(element of operationsKeypad){
+    element.addEventListener("click", function(){
+       switch(this.id){
+           case "Divide": displayELement.append("/"); break;
+           case "Multiply": displayELement.append("*"); break;
+           case "Add": displayELement.append("+"); break;
+           case "Subtract": displayELement.append("-"); break;
+           case "Calculate": var results = calculate(function(){
+                return displayELement.innerText;
+           }());
+       }
+       if(results){
+           displayELement.innerText = results.eval();
+       }
+    });
+}
+document.getElementById("Clear").addEventListener("click", function(){
+    displayELement.innerText = "0";
+});
+</script>
+
 <script>
 window.addEventListener('load', centerWindow);
 window.addEventListener('resize', centerWindow);
