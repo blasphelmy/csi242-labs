@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048</title>
+</head>
+<style>
+    gameBoardLayout {
+        position: absolute;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 105px));
+        grid-template-areas:
+            "tileContainer tileContainer tileContainer tileContainer"
+            "tileContainer tileContainer tileContainer tileContainer"
+            "tileContainer tileContainer tileContainer tileContainer"
+            "tileContainer tileContainer tileContainer tileContainer"
+        ;
+        grid-template-rows: repeat(4, minmax(0, 105px));
+        margin: auto;
+        width: 420px;
+        height: 420px;
+        background-color: rgb(182, 176, 161);
+        border-radius: 10px;
+        overflow: hidden;
+        -webkit-box-shadow: 0px 3px 36px 4px rgba(255, 255, 255, 0.43);
+        box-shadow: 0px 3px 36px 4px rgba(12, 12, 12, 0.521);
+        border-width: .7px;
+        border-style: solid;
+        border-color: gray;
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        -moz-backdrop-filter: blur(25px);
+        padding: 8px;
+        ;
+
+    }
+
+    tileContainer {
+        position: relative;
+        height: 100px;
+        width: 100px;
+        padding: 0;
+    }
+
+    .tile {
+        position: absolute;
+        top: 5px;
+        right: 2px;
+        border-radius: 10px;
+        height: 95px;
+        width: 95px;
+        background-color: rgb(255, 240, 200);
+    }
+
+    .tile>p {
+        position: relative;
+        font-size: 40px;
+        top: -10px;
+        text-align: center;
+    }
+
+    .active {
+        top: 7px;
+        background-color: rgba(243, 199, 76, 0.808);
+        z-index: 10;
+    }
+</style>
+<script>
+
+</script>
+<script>
+    var newGame = new gameBoard();
+
+    function initializeStuff() {
+        centerWindow();
+        initializeAndCenterCells();
+        this.newGame.newRandomTile();
+        this.newGame.displayArray();
+
+    }
+    function centerWindow() {
+        let w = window.innerWidth;
+        let h = window.innerHeight;
+        let element = document.getElementById("gameBoard");
+        let elementWidth = element.getBoundingClientRect().width;
+        let elementHeight = element.getBoundingClientRect().height;
+        element.style.top = (innerHeight * .25) + "px";
+        element.style.left = ((innerWidth - elementWidth) * .5) + "px";
+
+    }
+    function centerToParent(element) {
+        console.log(element.parentElement.nodeName);
+
+    }
+    function initializeAndCenterCells() {
+        var tiles = document.getElementsByTagName("tile");
+        for (var i = 0; i < tiles.length; i++) {
+            tiles[i] = centerToParent(tiles[i]);
+        }
+    }
+    window.addEventListener('keydown', function (event) {
+        if (event.keyCode === 37) {
+            newGame.MoveTile("left");
+        } if (event.keyCode === 39) {
+            newGame.MoveTile("right");
+        } if (event.keyCode === 40) {
+            newGame.MoveTile("down");
+        } if (event.keyCode === 38) {
+            newGame.MoveTile("up");
+        }
+        // console.log(event.keyCode);
+    });
+</script>
+<body onload="initializeStuff()">
+    <gameBoardLayout id="gameBoard">
+        <!-- row 0 -->
+        <tileContainer>
+        <div id="00" class="tile">
+            <p></p>
+        </div>
+    </tileContainer>
+    <tileContainer>
+        <div id="01" class="tile">
+            <p></p>
+        </div>
+    </tileContainer>
+    <tileContainer>
+        <div id="02" class="tile">
+            <p></p>
+        </div>
+    </tileContainer>
+    <tileContainer>
+        <div id="03" class="tile">
+            <p></p>
+        </div>
+    </tileContainer>
+        <!-- row 1 -->
+        <tileContainer>
+            <div id="10" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="11" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="12" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="13" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <!-- row 2 -->
+        <tileContainer>
+            <div id="20" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="21" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="22" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="23" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <!-- row 3 -->
+        <tileContainer>
+            <div id="30" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="31" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="32" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+        <tileContainer>
+            <div id="33" class="tile">
+                <p></p>
+            </div>
+        </tileContainer>
+    </gameBoardLayout>
+</body>
+</html>
