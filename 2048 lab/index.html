@@ -134,41 +134,21 @@ function moveLeft(){
     }
 }
 function moveRight(){
-    for(let x = 0;  x < size; x++){
-        for(let y = 1;  y < size; y++){
+    for(let x = 2;  x >= 0; x--){
+        for(let y = 0;  y < size; y++){
             console.log($(`#${x+""+y}`));
-            if(gameArray[x][y] > 0){
+            if(gameArray[y][x] > 0){
                 let y2 = y;
                 let x2 = x;
-                while(gameArray[x2][y2-1] === 0 && y2 >= 0){
-                    y2--;
+                while(gameArray[y2][x2+1] === 0){
+                    x2++;
                 }
-                gameArray[x2][y2] = gameArray[x][y];
-                gameArray[x][y] = 0;
+                gameArray[y2][x2] = gameArray[y][x];
+                gameArray[y][x] = 0;
             }
         }
     }
 }
-// function moveRight(){
-//     for(let x = 0;  x < size; x++){
-//         for(let y = 2;  y >= 0; y--){
-//             console.log($(`#${x+""+y}`));
-//             if(gameArray[x][y] > 0){
-//                 let y2 = y - 1;
-//                 let x2 = x;
-//                 while(gameArray[x2][y2] === 0){
-//                     y2--;
-//                     if(y2 === size - 1){
-//                         break;
-//                     }
-//                 }
-//                 gameArray[x2][y2] = gameArray[x][y];
-//                 gameArray[x][y] = 0;
-//             }
-//         }
-//     }
-// }
-
 function moveDown(){
     for(let y = 0;  y < size; y++){
         for(let x = 2;  x >= 0; x--){
