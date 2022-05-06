@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +56,7 @@
         background-color: rgb(255, 240, 200);
     }
 
-    .tile>p {
+    .tile {
         position: relative;
         font-size: 40px;
         top: -10px;
@@ -69,135 +70,252 @@
     }
 </style>
 <script>
+var gameArray;
+var size = 4;
 
-</script>
-<script>
-    var newGame = new gameBoard();
+function create2dArray(size){
+    var stack = new Array(size);
+    for(let i = 0; i< size; i++)
+    {
+        temp = new Array(size);
 
-    function initializeStuff() {
-        centerWindow();
-        initializeAndCenterCells();
-        this.newGame.newRandomTile();
-        this.newGame.displayArray();
-
+        for(let n =0; n<size; n++)
+        {
+            temp[n] = 0;
+        }
+        stack[i] = temp;
     }
-    function centerWindow() {
-        let w = window.innerWidth;
-        let h = window.innerHeight;
-        let element = document.getElementById("gameBoard");
-        let elementWidth = element.getBoundingClientRect().width;
-        let elementHeight = element.getBoundingClientRect().height;
-        element.style.top = (innerHeight * .25) + "px";
-        element.style.left = ((innerWidth - elementWidth) * .5) + "px";
 
-    }
-    function centerToParent(element) {
-        console.log(element.parentElement.nodeName);
+    return stack;
+}
 
-    }
-    function initializeAndCenterCells() {
-        var tiles = document.getElementsByTagName("tile");
-        for (var i = 0; i < tiles.length; i++) {
-            tiles[i] = centerToParent(tiles[i]);
+function init(){
+    gameArray = create2dArray(size);
+    generateRandomCell();
+    display2darray();
+}
+
+function display2darray(){
+    for(let x = 0;  x < size; x++){
+        for(let y = 0;  y < gameArray.length; y++){
+            $(`#${x+""+y}`).html(gameArray[x][y]);
         }
     }
-    window.addEventListener('keydown', function (event) {
-        if (event.keyCode === 37) {
-            newGame.MoveTile("left");
-        } if (event.keyCode === 39) {
-            newGame.MoveTile("right");
-        } if (event.keyCode === 40) {
-            newGame.MoveTile("down");
-        } if (event.keyCode === 38) {
-            newGame.MoveTile("up");
+}
+
+function generateRandomCell(){
+    do{
+        var x = generateRand(4)
+        var y = generateRand(4);
+    }while(gameArray[x][y] !== 0)
+    gameArray[x][y] = 2;
+    gameArray[0][3] = 3;
+}
+function generateRand(max){
+    min = 0;
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+function moveLeft(){
+    for(let x = 0;  x < size; x++){
+        for(let y = 1;  y < size; y++){
+            // $(`#${x+""+y}`).html(gameArray[x][y]);
+            if(gameArray[x][y] > 0){
+                let y2 = y;
+                let x2 = x;
+                while(gameArray[x2][y2-1] === 0 && y2 >= 0){
+                    y2--;
+                }
+                gameArray[x2][y2] = gameArray[x][y];
+                gameArray[x][y] = 0;
+            }
         }
-        // console.log(event.keyCode);
-    });
+    }
+}
+function moveRight(){
+    for(let x = 0;  x < size; x++){
+        for(let y = 1;  y < size; y++){
+            console.log($(`#${x+""+y}`));
+            if(gameArray[x][y] > 0){
+                let y2 = y;
+                let x2 = x;
+                while(gameArray[x2][y2-1] === 0 && y2 >= 0){
+                    y2--;
+                }
+                gameArray[x2][y2] = gameArray[x][y];
+                gameArray[x][y] = 0;
+            }
+        }
+    }
+}
+// function moveRight(){
+//     for(let x = 0;  x < size; x++){
+//         for(let y = 2;  y >= 0; y--){
+//             console.log($(`#${x+""+y}`));
+//             if(gameArray[x][y] > 0){
+//                 let y2 = y - 1;
+//                 let x2 = x;
+//                 while(gameArray[x2][y2] === 0){
+//                     y2--;
+//                     if(y2 === size - 1){
+//                         break;
+//                     }
+//                 }
+//                 gameArray[x2][y2] = gameArray[x][y];
+//                 gameArray[x][y] = 0;
+//             }
+//         }
+//     }
+// }
+
+function moveDown(){
+    for(let y = 0;  y < size; y++){
+        for(let x = 2;  x >= 0; x--){
+            if(gameArray[x][y] > 0){
+                let x2 = x;
+                let y2 = y;
+                while(gameArray[x2+1][y2] === 0 && x2 < size){
+                    x2++;
+                    if(x2 === size - 1){
+                        break;
+                    }
+                }
+                gameArray[x2][y2] = gameArray[x][y];
+                gameArray[x][y] = 0;
+            }
+        }
+    }
+}
+
+function moveUp(){
+    for(let y = 0;  y < size; y++){
+        for(let x = 0;  x < size; x++){
+            if(gameArray[x][y] > 0){
+                let x2 = x;
+                let y2 = y;
+                while(gameArray[x2-1][y2] === 0 && x2 >= 0){
+                    x2--;
+                    if(x2 === 0){
+                        break;
+                    }
+                }
+                gameArray[x2][y2] = gameArray[x][y];
+                gameArray[x][y] = 0;
+            }
+        }
+    }
+}
+
+
+
+window.addEventListener("keyup", function(e){
+    // if(e.key === "ArrowUp" 
+    // || e.key === "ArrowDown" 
+    // || e.key === "ArrowLeft"
+    // || e.key === "ArrowRight"){
+        
+    // }
+
+    if(e.key === "ArrowLeft"){
+        moveLeft();
+        display2darray();
+    }
+    else if(e.key === "ArrowRight"){
+        moveRight();
+        display2darray();
+    }
+    else if(e.key === "ArrowUp"){
+        moveUp();
+        display2darray();
+    }
+    else if(e.key === "ArrowDown"){
+        moveDown();
+        display2darray();
+    }
+})
+
 </script>
-<body onload="initializeStuff()">
+<body onload="init()">
     <gameBoardLayout id="gameBoard">
         <!-- row 0 -->
         <tileContainer>
         <div id="00" class="tile">
-            <p></p>
         </div>
     </tileContainer>
     <tileContainer>
         <div id="01" class="tile">
-            <p></p>
         </div>
     </tileContainer>
     <tileContainer>
         <div id="02" class="tile">
-            <p></p>
         </div>
     </tileContainer>
     <tileContainer>
         <div id="03" class="tile">
-            <p></p>
         </div>
     </tileContainer>
         <!-- row 1 -->
         <tileContainer>
             <div id="10" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="11" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="12" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="13" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <!-- row 2 -->
         <tileContainer>
             <div id="20" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="21" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="22" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="23" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <!-- row 3 -->
         <tileContainer>
             <div id="30" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="31" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="32" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
         <tileContainer>
             <div id="33" class="tile">
-                <p></p>
+
             </div>
         </tileContainer>
     </gameBoardLayout>
