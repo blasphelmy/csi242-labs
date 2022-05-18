@@ -96,19 +96,22 @@ function init(){
 }
 
 function display2darray(){
-    for(let x = 0;  x < size; x++){
-        for(let y = 0;  y < gameArray.length; y++){
-            $(`#${x+""+y}`).html(gameArray[x][y]);
+    for(let row = 0;  row < size; row++){
+        for(let col = 0;  col < gameArray.length; col++){
+            $(`#${row+""+col}`).html("");
+            if(gameArray[row][col] > 0){
+                $(`#${row+""+col}`).html(gameArray[row][col]);
+            }
         }
     }
 }
 
 function generateRandomCell(){
     do{
-        var x = generateRand(4)
-        var y = generateRand(4);
-    }while(gameArray[x][y] !== 0)
-    gameArray[x][y] = 2;
+        var row = generateRand(4)
+        var col = generateRand(4);
+    }while(gameArray[row][col] !== 0)
+    gameArray[row][col] = 2;
     gameArray[0][3] = 2;
 }
 function generateRand(max){
@@ -118,70 +121,78 @@ function generateRand(max){
 }
 
 function moveLeft(){
-    for(let x = 0;  x < size; x++){
-        for(let y = 1;  y < size; y++){
-            // $(`#${x+""+y}`).html(gameArray[x][y]);
-            if(gameArray[x][y] > 0){
-                let y2 = y;
-                let x2 = x;
-                while(gameArray[x2][y2-1] === 0 && y2 >= 0){
-                    y2--;
+    for(let row = 0;  row < size; row++){
+        for(let col = 1;  col < size; col++){
+            // $(`#${row+""+col}`).html(gameArray[row][col]);
+            if(gameArray[row][col] > 0){
+                let col2 = col;
+                let row2 = row;
+                while(gameArray[row2][col2-1] === 0 && col2 >= 0){
+                    col2--;
                 }
-                gameArray[x2][y2] = gameArray[x][y];
-                gameArray[x][y] = 0;
+                if(col2 !== col){
+                    gameArray[row2][col2] = gameArray[row][col];
+                    gameArray[row][col] = 0;
+                }
             }
         }
     }
 }
 function moveRight(){
-    for(let x = 2;  x >= 0; x--){
-        for(let y = 0;  y < size; y++){
-            console.log($(`#${x+""+y}`));
-            if(gameArray[y][x] > 0){
-                let y2 = y;
-                let x2 = x;
-                while(gameArray[y2][x2+1] === 0){
-                    x2++;
+    for(let col = 2;  col >= 0; col--){
+        for(let row = 0;  row < size; row++){
+            if(gameArray[row][col] > 0){
+                let row2 = row;
+                let col2 = col;
+                while(gameArray[row2][col2+1] === 0){
+                    col2++;
                 }
-                gameArray[y2][x2] = gameArray[y][x];
-                gameArray[y][x] = 0;
+                if(col2 !== col){
+                    gameArray[row2][col2] = gameArray[row][col];
+                    gameArray[row][col] = 0;
+                }
             }
         }
     }
 }
 function moveDown(){
-    for(let y = 0;  y < size; y++){
-        for(let x = 2;  x >= 0; x--){
-            if(gameArray[x][y] > 0){
-                let x2 = x;
-                let y2 = y;
-                while(gameArray[x2+1][y2] === 0 && x2 < size){
-                    x2++;
-                    if(x2 === size - 1){
+    for(let col = 0;  col < size; col++){
+        for(let row = 2;  row >= 0; row--){
+            if(gameArray[row][col] > 0){
+                let row2 = row;
+                let col2 = col;
+                while(gameArray[row2+1][col2] === 0 && row2 < size){
+                    row2++;
+                    if(row2 === size - 1){
                         break;
                     }
                 }
-                gameArray[x2][y2] = gameArray[x][y];
-                gameArray[x][y] = 0;
+                if(row2 !== row){
+                    gameArray[row2][col2] = gameArray[row][col];
+                    gameArray[row][col] = 0;
+                }
             }
         }
     }
 }
 
 function moveUp(){
-    for(let y = 0;  y < size; y++){
-        for(let x = 0;  x < size; x++){
-            if(gameArray[x][y] > 0){
-                let x2 = x;
-                let y2 = y;
-                while(gameArray[x2-1][y2] === 0 && x2 >= 0){
-                    x2--;
-                    if(x2 === 0){
+    for(let col = 0;  col < size; col++){
+        for(let row = 1;  row < size; row++){
+            if(gameArray[row][col] > 0){
+                let row2 = row;
+                let col2 = col;
+                while(gameArray[row2-1][col2] === 0 && row2 >= 0){
+                    row2--;
+                    if(row2 <= 0){
+                        row2 = 0;
                         break;
                     }
                 }
-                gameArray[x2][y2] = gameArray[x][y];
-                gameArray[x][y] = 0;
+                if(row2 !== row){
+                    gameArray[row2][col2] = gameArray[row][col];
+                    gameArray[row][col] = 0;
+                }
             }
         }
     }
