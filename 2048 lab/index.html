@@ -3,202 +3,14 @@
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/app.js"></script>
+    <link rel="stylesheet" href="/defaults.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2048</title>
 </head>
-<style>
-    gameBoardLayout {
-        position: absolute;
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 105px));
-        grid-template-areas:
-            "tileContainer tileContainer tileContainer tileContainer"
-            "tileContainer tileContainer tileContainer tileContainer"
-            "tileContainer tileContainer tileContainer tileContainer"
-            "tileContainer tileContainer tileContainer tileContainer"
-        ;
-        grid-template-rows: repeat(4, minmax(0, 105px));
-        margin: auto;
-        width: 420px;
-        height: 420px;
-        background-color: rgb(182, 176, 161);
-        border-radius: 10px;
-        overflow: hidden;
-        -webkit-box-shadow: 0px 3px 36px 4px rgba(255, 255, 255, 0.43);
-        box-shadow: 0px 3px 36px 4px rgba(12, 12, 12, 0.521);
-        border-width: .7px;
-        border-style: solid;
-        border-color: gray;
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        -moz-backdrop-filter: blur(25px);
-        padding: 8px;
-        ;
-
-    }
-
-    tileContainer {
-        position: relative;
-        height: 100px;
-        width: 100px;
-        padding: 0;
-    }
-
-    .tile {
-        position: absolute;
-        top: 5px;
-        right: 2px;
-        border-radius: 10px;
-        height: 95px;
-        width: 95px;
-        background-color: rgb(255, 240, 200);
-    }
-
-    .tile {
-        position: relative;
-        font-size: 40px;
-        top: -10px;
-        text-align: center;
-    }
-
-    .active {
-        top: 7px;
-        background-color: rgba(243, 199, 76, 0.808);
-        z-index: 10;
-    }
-</style>
 <script>
-var gameArray;
-var size = 4;
-
-function create2dArray(size){
-    var stack = new Array(size);
-    for(let i = 0; i< size; i++)
-    {
-        temp = new Array(size);
-
-        for(let n =0; n<size; n++)
-        {
-            temp[n] = 0;
-        }
-        stack[i] = temp;
-    }
-
-    return stack;
-}
-
-function init(){
-    gameArray = create2dArray(size);
-    generateRandomCell();
-    display2darray();
-}
-
-function display2darray(){
-    for(let row = 0;  row < size; row++){
-        for(let col = 0;  col < gameArray.length; col++){
-            $(`#${row+""+col}`).html("");
-            if(gameArray[row][col] > 0){
-                $(`#${row+""+col}`).html(gameArray[row][col]);
-            }
-        }
-    }
-}
-
-function generateRandomCell(){
-    do{
-        var row = generateRand(4)
-        var col = generateRand(4);
-    }while(gameArray[row][col] !== 0)
-    gameArray[row][col] = 2;
-    gameArray[0][3] = 2;
-}
-function generateRand(max){
-    min = 0;
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min);
-}
-
-function moveLeft(){
-    for(let row = 0;  row < size; row++){
-        for(let col = 1;  col < size; col++){
-            // $(`#${row+""+col}`).html(gameArray[row][col]);
-            if(gameArray[row][col] > 0){
-                let col2 = col;
-                let row2 = row;
-                while(gameArray[row2][col2-1] === 0 && col2 >= 0){
-                    col2--;
-                }
-                if(col2 !== col){
-                    gameArray[row2][col2] = gameArray[row][col];
-                    gameArray[row][col] = 0;
-                }
-            }
-        }
-    }
-}
-function moveRight(){
-    for(let col = 2;  col >= 0; col--){
-        for(let row = 0;  row < size; row++){
-            if(gameArray[row][col] > 0){
-                let row2 = row;
-                let col2 = col;
-                while(gameArray[row2][col2+1] === 0){
-                    col2++;
-                }
-                if(col2 !== col){
-                    gameArray[row2][col2] = gameArray[row][col];
-                    gameArray[row][col] = 0;
-                }
-            }
-        }
-    }
-}
-function moveDown(){
-    for(let col = 0;  col < size; col++){
-        for(let row = 2;  row >= 0; row--){
-            if(gameArray[row][col] > 0){
-                let row2 = row;
-                let col2 = col;
-                while(gameArray[row2+1][col2] === 0 && row2 < size){
-                    row2++;
-                    if(row2 === size - 1){
-                        break;
-                    }
-                }
-                if(row2 !== row){
-                    gameArray[row2][col2] = gameArray[row][col];
-                    gameArray[row][col] = 0;
-                }
-            }
-        }
-    }
-}
-
-function moveUp(){
-    for(let col = 0;  col < size; col++){
-        for(let row = 1;  row < size; row++){
-            if(gameArray[row][col] > 0){
-                let row2 = row;
-                let col2 = col;
-                while(gameArray[row2-1][col2] === 0 && row2 >= 0){
-                    row2--;
-                    if(row2 <= 0){
-                        row2 = 0;
-                        break;
-                    }
-                }
-                if(row2 !== row){
-                    gameArray[row2][col2] = gameArray[row][col];
-                    gameArray[row][col] = 0;
-                }
-            }
-        }
-    }
-}
-
-
 
 window.addEventListener("keyup", function(e){
     // if(e.key === "ArrowUp" 
@@ -207,7 +19,7 @@ window.addEventListener("keyup", function(e){
     // || e.key === "ArrowRight"){
         
     // }
-
+    mergeArray = create2dArray(size, false);
     if(e.key === "ArrowLeft"){
         moveLeft();
         display2darray();
@@ -224,10 +36,12 @@ window.addEventListener("keyup", function(e){
         moveDown();
         display2darray();
     }
-})
+    generateRandomCell();
+});
 
 </script>
 <body onload="init()">
+    <p id = "score"> 0 </p>
     <gameBoardLayout id="gameBoard">
         <!-- row 0 -->
         <tileContainer>
