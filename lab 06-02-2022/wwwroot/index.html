@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodge Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles&family=Karla&family=Radio+Canada:wght@300&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js" integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script   src="https://code.jquery.com/jquery-3.6.0.js"   integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="   crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <Background></Background>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Hi Score
+                </th>
+            </tr>
+        </thead>
+        <tbody id="leaderboard">
+
+        </tbody>
+    </table>
+    <h1><p>Dodge-Game</p></h1>
+    <h2><p>by paaooo</p></h2>
+    <Score><p>Score: 0</p></Score>
+    <canvas></canvas>
+    <Start><p>Start</p></Start>
+    <Instructions><p>W | A | S | D</p><p>J | SPACE | ENTER</p></Instructions>
+</body>
+<!-- This is ordered in a way so that the main file could call anything in terms of other files, and the centering file centers everything after everything loads/executes -->
+<!-- Also not inside the head tag so I don't have to put everything inside an onload function -->
+<script src="classes.js"></script>
+<script src="script.js" type="module"></script>
+<script src="center.js"></script>
+</html>
+
+<script>
+
+function postScoreToServer(newScore){
+    console.log(newScore);
+    let newName = prompt("Enter your name: ");
+    
+    let newPost = {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+            name : newName,
+            score : newScore.toString()
+        })
+        
+    }
+
+    fetch("/postNewScore", newPost).then((response) => response.json()).then(function(data){
+        fetchLeaderBoardData();
+    })
+}
+
+function fetchLeaderBoardData(){
+    fetch(`/fetchLeaderBoardData`).then((response) => response.json()).then(function(data){
+        data.sort(sortByScore);
+        $(`#leaderboard`).text("");
+        for(let i of data){
+            $(`#leaderboard`).append($(`
+                <tr>
+                    <td>${i.name}</td>
+                    <td>${i.score}</td>
+                </tr>
+            `));
+        }
+    })
+}
+function sortByScore(a, b){
+    if(Number(a.score) > Number(b.score)){
+        return -1;
+    }
+    if(Number(a.score) < Number(b.score)){
+        return 1;
+    }
+    return 0;
+}
+</script>

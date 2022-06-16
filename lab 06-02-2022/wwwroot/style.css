@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    line-height: 0;
+    font-family: 'Fuzzy Bubbles', cursive;
+    font-family: 'Karla', sans-serif;
+    font-family: 'Radio Canada', sans-serif;
+}
+canvas {
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 5px rgb(0,9,17), 0px 0px 20px 7px rgb(15, 26, 17) inset;
+    position: absolute;
+    top: 100px;
+}
+Start {
+    font-weight: bold;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 25pt;
+    background-color: rgb(86, 139, 99);
+    color: rgb(25, 44, 35);
+    box-shadow: 0px 0px 5px 5px rgb(0,9,17), 0px 0px 20px 7px rgb(15, 26, 17) inset;
+    border-radius: 10px;
+    position: absolute;
+    top: 910px;
+}
+Start:hover {
+    background-color: rgb(52, 83, 60);
+    color: rgb(188, 218, 199);
+}
+Score {
+    position: absolute;
+    font-size: 20pt;
+    top: 75px;
+    font-weight: bolder;
+    color: rgb(168,48,32);
+}
+Instructions {
+    position: absolute;
+    top: 900px;
+    left: 50px;
+    font-size: 15pt;
+    line-height: 10px;
+    color: rgb(188, 218, 199);
+}
+h1 {
+    top: 0;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 50px;
+    color: rgb(0,9,17);
+}
+h2 {
+    position: absolute;
+    top: 20px;
+    left: 130px;
+    color: rgb(0,9,17);
+}
+Background {
+    background-image: url(images/website-background.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;
+    z-index: -1;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+}
+
+table > tr, td {
+    padding: 10px;
+    margin-bottom: 30px;
+}
+table {
+    position: absolute;
+    padding: 30px;
+    right: 0px;
+}

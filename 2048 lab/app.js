@@ -3,20 +3,18 @@ var gameArray;
 var mergeArray; //keeps track of cells that has merged
 var size = 4;
 var scoreTracker;
-
+var defaultTileSize = 105;
 function create2dArray(size, defaultVal){
     var newArray = new Array(size);
     for(let i = 0; i< size; i++)
     {
         temp = new Array(size);
-
         for(let n =0; n<size; n++)
         {
             temp[n] = defaultVal;
         }
         newArray[i] = temp;
     }
-
     return newArray;
 }
 
@@ -201,4 +199,8 @@ function moveUp(){
         }
     }
     calculateScore(score);
+}
+
+function animateTile(row, col, row2, col2){
+
 }
